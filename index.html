@@ -15,6 +15,7 @@
     }
     h1 {
       color: #1a73e8;
+      margin-top: 60px; /* chừa chỗ cho đồng hồ trên cùng */
     }
     ul {
       list-style: none;
@@ -44,23 +45,49 @@
       font-size: 0.9em;
       color: #777;
     }
+    /* 🕒 Vị trí đồng hồ góc trái trên */
+    .clock-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .clock-label {
+      font-size: 0.8em;
+      color: #333;
+      margin-bottom: -5px;
+    }
   </style>
 </head>
 <body>
+
+  <!-- 🕒 Đồng hồ Việt Nam & Mỹ -->
   <div class="clock-container">
+    <div class="clock-label">🇻🇳 Việt Nam</div>
     <iframe scrolling="no" frameborder="no" clocktype="html5"
       style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:120px;"
-      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT0700&color=green&size=120&Title=&Message=&Target=&From=2025,1,1,0,0,0&Color=green">
+      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT0700&color=green&size=120">
+    </iframe>
+
+    <div class="clock-label">🇺🇸 Mỹ (New York)</div>
+    <iframe scrolling="no" frameborder="no" clocktype="html5"
+      style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:120px;"
+      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT-0500&color=blue&size=120">
     </iframe>
   </div>
+
+  <!-- 🌐 Nội dung chính -->
   <h1>🌐 Các trang ứng dụng</h1>
   <ul>
-    <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm
-" target="_blank" rel="noopener">Học nghiệp vụ Kế hoạch Vật tư</a></li>
+    <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm" target="_blank" rel="noopener">Học nghiệp vụ Kế hoạch Vật tư</a></li>
     <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/DAUTHAU2025/index.htm" target="_blank" rel="noopener">Học nghiệp vụ Đấu thầu</a></li>
     <li><a href="https://docs.google.com/spreadsheets/d/1qjXhcvPrr10kQ4vcgZhzsXTZg0yE59kH/edit?gid=1567642694#gid=1567642694" target="_blank" rel="noopener">Cập nhật theo dõi hợp đồng</a></li>
     <li><a href="https://chat.openai.com" target="_blank" rel="noopener">ChatGPT</a></li>
   </ul>
-  <footer>© 2025 - Tạo bởi Minh Trung trên GitHub Pages</footer><iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:150px;height:150px;"src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT0700&color=green&size=150&Title=&Message=&Target=&From=2025,1,1,0,0,0&Color=green"></iframe>
+  <footer>© 2025 - Tạo bởi Minh Trung trên GitHub Pages</footer>
+
 </body>
 </html>
