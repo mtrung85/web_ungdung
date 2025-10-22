@@ -15,7 +15,6 @@
     }
     h1 {
       color: #1a73e8;
-      margin-top: 60px; /* chừa chỗ cho đồng hồ trên cùng */
     }
     ul {
       list-style: none;
@@ -45,36 +44,24 @@
       font-size: 0.9em;
       color: #777;
     }
-    /* 🕒 Vị trí đồng hồ góc trái trên */
+    /* === ĐỒNG HỒ === */
     .clock-container {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .clock-label {
-      font-size: 0.8em;
-      color: #333;
-      margin-bottom: -5px;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
     }
   </style>
 </head>
 <body>
-
-  <!-- 🕒 Đồng hồ Việt Nam & Mỹ -->
+  <!-- Đồng hồ góc trái -->
   <div class="clock-container">
-    <div class="clock-label">Việt Nam</div>
     <iframe scrolling="no" frameborder="no" clocktype="html5"
-      style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:120px;"
-      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT0700&color=green&size=120">
+      style="overflow:hidden;border:0;margin:0;padding:0;width:150px;height:150px;"
+      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=Asia/Ho_Chi_Minh&color=green&size=150&Title=&Message=&Target=&From=2025,1,1,0,0,0&Color=green">
     </iframe>
+  </div>
 
-    
-
-  <!-- 🌐 Nội dung chính -->
   <h1>🌐 Các trang ứng dụng</h1>
   <ul>
     <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm" target="_blank" rel="noopener">Học nghiệp vụ Kế hoạch Vật tư</a></li>
@@ -83,6 +70,5 @@
     <li><a href="https://chat.openai.com" target="_blank" rel="noopener">ChatGPT</a></li>
   </ul>
   <footer>© 2025 - Tạo bởi Minh Trung trên GitHub Pages</footer>
-
 </body>
 </html>
