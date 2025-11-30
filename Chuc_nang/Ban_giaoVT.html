@@ -375,10 +375,7 @@
 
                 let doc;
                 try {
-                    doc = new window.docxtemplater(zip, {
-                        paragraphLoop: true,
-                        linebreaks: true
-                    });
+                    paragraphLoop: true
                 } catch (e) {
                     console.error("Lỗi khởi tạo docxtemplater:", e);
                     alert("Không khởi tạo được docxtemplater.");
