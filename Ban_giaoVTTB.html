@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Biên bản bàn giao VTTB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px;
+        }
+        input, select {
+            width: 100%;
+            padding: 6px 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .row {
+            display: flex;
+            gap: 16px;
+        }
+        .row > div {
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 13px;
+            text-align: left;
+        }
+        table th {
+            background: #eee;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+        }
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #111827;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+        }
+        .btn + .btn {
+            margin-left: 8px;
+        }
+        .item-actions {
+            text-align: center;
+        }
+        .footer-actions {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .note {
+            font-size: 12px;
+            color: #6b7280;
+        }
+    </style>
+
+    <!-- Thư viện xử lý DOCX -->
+    <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip.js"></script>
+    <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip-utils.js"></script>
+    <script src="https://unpkg.com/docxtemplater@3.49.0/build/docxtemplater.js"></script>
+    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+</head>
+<body>
+    <h1>Biên bản bàn giao VTTB</h1>
+
+    <div class="card">
+        <h2>Thông tin chung</h2>
+        <div class="row">
+            <div>
+                <label>Địa điểm (ví dụ: Tân Bình)</label>
+                <input type="text" id="dia_diem" value="Tân Bình" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label>Giờ giao dịch</label>
+                <input type="time" id="gio_phut" />
+            </div>
+            <div>
+                <label>Ngày giao dịch</label>
+                <input type="date" id="ngay_giao_dich" />
+            </div>
+        </div>
+
+        <h3>Bên giao</h3>
+        <div class="row">
+            <div style="max-width: 110px;">
+                <label>Xưng hô</label>
+                <select id="xung_ho_ben_giao">
+                    <option value="Ông">Ông</option>
+                    <option value="Bà">Bà</option>
+                </select>
+            </div>
+            <div>
+                <label>Họ tên</label>
+                <input type="text" id="ten_ben_giao" />
+            </div>
+            <div>
+                <label>Chức vụ bên giao</label>
+                <input type="text" id="chuc_vu_ben_giao" />
+            </div>
+        </div>
+
+        <h3>Bên nhận</h3>
+        <div class="row">
+            <div style="max-width: 110px;">
+                <label>Xưng hô</label>
+                <select id="xung_ho_ben_nhan">
+                    <option value="Ông">Ông</option>
+                    <option value="Bà">Bà</option>
+                </select>
+            </div>
+            <div>
+                <label>Họ tên</label>
+                <input type="text" id="ten_ben_nhan" />
+            </div>
+            <div>
+                <label>Chức vụ bên nhận</label>
+                <input type="text" id="chuc_vu_ben_nhan" />
+            </div>
+        </div>
+
+        <div>
+            <label>Tên công trình / hạng mục</label>
+            <input type="text" id="ten_cong_trinh" />
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Danh sách vật tư – thiết bị</h2>
+        <p class="note">Bạn có thể thêm/xoá dòng bất kỳ. Những dòng này sẽ đổ vào bảng trong file Word.</p>
+
+        <table id="items-table">
+            <thead>
+                <tr>
+                    <th style="width: 40px;">STT</th>
+                    <th>Tên và qui cách</th>
+                    <th style="width: 80px;">Đvt</th>
+                    <th style="width: 100px;">Số lượng</th>
+                    <th>Ghi chú</th>
+                    <th style="width: 80px;">Xoá</th>
+                </tr>
+            </thead>
+            <tbody id="items-body">
+                <!-- Các dòng sẽ được thêm bằng JS -->
+            </tbody>
+        </table>
+        <div class="footer-actions">
+            <button type="button" class="btn btn-secondary" onclick="addItemRow()">+ Thêm dòng</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="footer-actions">
+            <button class="btn btn-primary" onclick="generateDoc()">Tạo file Word</button>
+        </div>
+        <p class="note">
+            Khi bấm "Tạo file Word", trình duyệt sẽ tải về file Word để in hoặc lưu
+            
+        </p>
+    </div>
+
+    <script>
+        // Thêm 1 dòng vật tư mới
+        function addItemRow(defaultData = {}) {
+            const tbody = document.getElementById("items-body");
+            const rowCount = tbody.querySelectorAll("tr").length;
+            const stt = rowCount + 1;
+
+            const tr = document.createElement("tr");
+            tr.classList.add("item-row");
+
+            tr.innerHTML = `
+                <td class="stt-cell">${stt}</td>
+                <td>
+                    <input type="text" class="item-ten-quy-cach" value="${defaultData.ten_quy_cach || ""}">
+                </td>
+                <td>
+                    <input type="text" class="item-dvt" value="${defaultData.dvt || ""}">
+                </td>
+                <td>
+                    <input type="number" class="item-so-luong" value="${defaultData.so_luong || ""}">
+                </td>
+                <td>
+                    <input type="text" class="item-ghi-chu" value="${defaultData.ghi_chu || ""}">
+                </td>
+                <td class="item-actions">
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeItemRow(this)">Xoá</button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+        }
+
+        // Xoá 1 dòng & cập nhật lại STT
+        function removeItemRow(button) {
+            const tr = button.closest("tr");
+            tr.remove();
+            updateSTT();
+        }
+
+        function updateSTT() {
+            const rows = document.querySelectorAll("#items-body tr");
+            rows.forEach((row, index) => {
+                const sttCell = row.querySelector(".stt-cell");
+                if (sttCell) {
+                    sttCell.textContent = index + 1;
+                }
+            });
+        }
+
+        // Khởi tạo với 2 dòng mẫu
+        addItemRow();
+        addItemRow();
+
+        // Gán ngày & giờ hiện tại cho 2 ô date/time khi load trang
+        window.addEventListener("DOMContentLoaded", () => {
+            const now = new Date();
+
+            // Ngày hiện tại
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, "0");
+            const dd = String(now.getDate()).padStart(2, "0");
+            const dateInput = document.getElementById("ngay_giao_dich");
+            if (dateInput) {
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
+            }
+
+            // Giờ hiện tại
+            const hh = String(now.getHours()).padStart(2, "0");
+            const mi = String(now.getMinutes()).padStart(2, "0");
+            const timeInput = document.getElementById("gio_phut");
+            if (timeInput) {
+                timeInput.value = `${hh}:${mi}`;
+            }
+        });
+
+        // Đọc file docx template từ server
+        function loadFile(url, callback) {
+            PizZipUtils.getBinaryContent(url, function (error, content) {
+                if (error) {
+                    console.error("Lỗi đọc template:", error);
+                    alert("Không đọc được file template. Kiểm tra lại đường dẫn /template/...");
+                    return;
+                }
+                callback(content);
+            });
+        }
+
+        function generateDoc() {
+            // Lấy dữ liệu từ form
+            const dia_diem = document.getElementById("dia_diem").value || "";
+
+            // Ngày giao dịch
+            let ngay = "", thang = "", nam = "", ngay_giao_dich = "";
+            const dateVal = document.getElementById("ngay_giao_dich").value;
+            if (dateVal) {
+                const parts = dateVal.split("-");
+                if (parts.length === 3) {
+                    nam = parts[0];
+                    thang = parts[1];
+                    ngay = parts[2];
+                    ngay_giao_dich = `${ngay}/${thang}/${nam}`;
+                }
+            }
+
+            // Giờ giao dịch -> HHhMM
+            let gio_phut = "";
+            const timeVal = document.getElementById("gio_phut").value;
+            if (timeVal) {
+                const tParts = timeVal.split(":");
+                if (tParts.length === 2) {
+                    const hh = tParts[0];
+                    const mi = tParts[1];
+                    gio_phut = `${hh}h${mi}`;
+                } else {
+                    gio_phut = timeVal;
+                }
+            }
+
+            // Bên giao / nhận
+            const xung_ho_ben_giao = document.getElementById("xung_ho_ben_giao").value || "";
+            const ten_ben_giao = document.getElementById("ten_ben_giao").value || "";
+            const chuc_vu_ben_giao = document.getElementById("chuc_vu_ben_giao").value || "";
+
+            const xung_ho_ben_nhan = document.getElementById("xung_ho_ben_nhan").value || "";
+            const ten_ben_nhan = document.getElementById("ten_ben_nhan").value || "";
+            const chuc_vu_ben_nhan = document.getElementById("chuc_vu_ben_nhan").value || "";
+
+            const ten_cong_trinh = document.getElementById("ten_cong_trinh").value || "";
+
+            // Lấy danh sách items
+            const rows = document.querySelectorAll("#items-body tr.item-row");
+            const items = [];
+            rows.forEach((row, index) => {
+                const ten_quy_cach = row.querySelector(".item-ten-quy-cach").value || "";
+                const dvt = row.querySelector(".item-dvt").value || "";
+                const so_luong = row.querySelector(".item-so-luong").value || "";
+                const ghi_chu = row.querySelector(".item-ghi-chu").value || "";
+
+                // Nếu dòng hoàn toàn trống thì bỏ qua
+                if (!ten_quy_cach && !dvt && !so_luong && !ghi_chu) return;
+
+                items.push({
+                    stt: index + 1,
+                    ten_quy_cach,
+                    dvt,
+                    so_luong,
+                    ghi_chu
+                });
+            });
+
+            if (items.length === 0) {
+                if (!confirm("Chưa có vật tư nào, bạn vẫn muốn tạo biên bản?")) {
+                    return;
+                }
+            }
+
+            // Dữ liệu set vào template
+            const data = {
+                dia_diem,
+                ngay,
+                thang,
+                nam,
+                gio_phut,
+                ngay_giao_dich,
+                xung_ho_ben_giao,
+                ten_ben_giao,
+                chuc_vu_ben_giao,
+                xung_ho_ben_nhan,
+                ten_ben_nhan,
+                chuc_vu_ben_nhan,
+                ten_cong_trinh,
+                items
+            };
+
+            const templatePath = "template/BienBanGiaoVTTB_Template.docx";
+
+            loadFile(templatePath, function (content) {
+                let zip;
+                try {
+                    zip = new PizZip(content);
+                } catch (e) {
+                    console.error("Lỗi đọc file docx:", e);
+                    alert("File template không đúng định dạng DOCX.");
+                    return;
+                }
+
+                let doc;
+                try {
+                    doc = new window.docxtemplater(zip, {
+                        paragraphLoop: true,
+                        linebreaks: true
+                    });
+                } catch (e) {
+                    console.error("Lỗi khởi tạo docxtemplater:", e);
+                    alert("Không khởi tạo được docxtemplater.");
+                    return;
+                }
+
+                doc.setData(data);
+
+                try {
+                    doc.render();
+                } catch (error) {
+                    console.error(JSON.stringify({
+                        message: error.message,
+                        name: error.name,
+                        stack: error.stack,
+                        properties: error.properties
+                    }, null, 2));
+                    alert("Có lỗi khi render template. Kiểm tra lại tên biến {{...}} trong Word.");
+                    return;
+                }
+
+                const out = doc.getZip().generate({
+                    type: "blob",
+                    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                });
+
+                saveAs(out, "Bien-ban-giao-VTTB.docx");
+            });
+        }
+    </script>
+</body>
+</html>
