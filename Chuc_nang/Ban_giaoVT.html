@@ -202,6 +202,7 @@
     </div>
 
     <script>
+        // Thêm 1 dòng vật tư mới
         function addItemRow(defaultData = {}) {
             const tbody = document.getElementById("items-body");
             const rowCount = tbody.querySelectorAll("tr").length;
@@ -232,6 +233,7 @@
             tbody.appendChild(tr);
         }
 
+        // Xoá 1 dòng & cập nhật lại STT
         function removeItemRow(button) {
             const tr = button.closest("tr");
             tr.remove();
@@ -248,9 +250,11 @@
             });
         }
 
+        // Khởi tạo với 2 dòng mẫu
         addItemRow();
         addItemRow();
 
+        // Gán ngày & giờ hiện tại cho 2 ô date/time khi load trang
         window.addEventListener("DOMContentLoaded", () => {
             const now = new Date();
 
@@ -270,6 +274,7 @@
             }
         });
 
+        // Đọc file docx template từ server
         function loadFile(url, callback) {
             PizZipUtils.getBinaryContent(url, function (error, content) {
                 if (error) {
@@ -282,8 +287,10 @@
         }
 
         function generateDoc() {
+            // Lấy dữ liệu từ form
             const dia_diem = document.getElementById("dia_diem").value || "";
 
+            // Ngày giao dịch
             let ngay = "", thang = "", nam = "", ngay_giao_dich = "";
             const dateVal = document.getElementById("ngay_giao_dich").value;
             if (dateVal) {
@@ -296,6 +303,7 @@
                 }
             }
 
+            // Giờ giao dịch -> HHhMM
             let gio_phut = "";
             const timeVal = document.getElementById("gio_phut").value;
             if (timeVal) {
@@ -309,6 +317,7 @@
                 }
             }
 
+            // Bên giao / nhận
             const xung_ho_ben_giao = document.getElementById("xung_ho_ben_giao").value || "";
             const ten_ben_giao = document.getElementById("ten_ben_giao").value || "";
             const chuc_vu_ben_giao = document.getElementById("chuc_vu_ben_giao").value || "";
@@ -319,6 +328,7 @@
 
             const ten_cong_trinh = document.getElementById("ten_cong_trinh").value || "";
 
+            // Lấy danh sách items
             const rows = document.querySelectorAll("#items-body tr.item-row");
             const items = [];
             rows.forEach((row, index) => {
@@ -327,6 +337,7 @@
                 const so_luong = row.querySelector(".item-so-luong").value || "";
                 const ghi_chu = row.querySelector(".item-ghi-chu").value || "";
 
+                // Nếu dòng hoàn toàn trống thì bỏ qua
                 if (!ten_quy_cach && !dvt && !so_luong && !ghi_chu) return;
 
                 items.push({
@@ -344,6 +355,7 @@
                 }
             }
 
+            // Dữ liệu set vào template
             const data = {
                 dia_diem,
                 ngay,
@@ -375,10 +387,18 @@
 
                 let doc;
                 try {
-                    paragraphLoop: true
+                    doc = new window.docxtemplater(zip, {
+                        paragraphLoop: true,
+                        linebreaks: true,
+                        // dùng { } cho tag
+                        delimiters: {
+                            start: "{",
+                            end: "}"
+                        }
+                    });
                 } catch (e) {
                     console.error("Lỗi khởi tạo docxtemplater:", e);
-                    alert("Không khởi tạo được docxtemplater.");
+                    alert("Không khởi tạo được docxtemplater (kiểm tra lại các tag trong file Word).");
                     return;
                 }
 
@@ -387,13 +407,8 @@
                 try {
                     doc.render();
                 } catch (error) {
-                    console.error(JSON.stringify({
-                        message: error.message,
-                        name: error.name,
-                        stack: error.stack,
-                        properties: error.properties
-                    }, null, 2));
-                    alert("Có lỗi khi render template. Kiểm tra lại tên biến {{...}} trong Word.");
+                    console.error("Lỗi khi render template:", error);
+                    alert("Có lỗi khi render template. Kiểm tra lại tên biến {…} và vòng lặp {#items}/{/items} trong Word.");
                     return;
                 }
 
