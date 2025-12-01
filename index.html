@@ -7,69 +7,177 @@
   <style>
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #f0f4ff, #ffffff);
+      background: linear-gradient(135deg, #eef2ff, #ffffff);
       color: #333;
       text-align: center;
       margin: 0;
-      padding: 2em;
+      padding: 3em;  /* tăng padding */
+      font-size: 18px; /* tăng font chung */
     }
     h1 {
       color: #1a73e8;
+      font-size: 2.9em; /* tăng size tiêu đề */
+      font-weight: 700;
+      margin-bottom: 0.8em;
     }
     ul {
       list-style: none;
       padding: 0;
-      max-width: 400px;
-      margin: 2em auto;
+      max-width: 500px; /* tăng chiều rộng */
+      margin: 2.5em auto;
     }
     li {
       background: white;
-      margin: 10px 0;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin: 14px 0;
+      padding: 16px;   /* tăng padding */
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     li:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.14);
     }
-    a {
+
+    /* Link chính */
+    a.main-link,
+    .menu-label-main {
       text-decoration: none;
       color: #0d53ae;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1.05em; /* lớn hơn chút */
+      width: 100%;
+      text-align: center;
+      display: block;
+      cursor: pointer;
     }
+
     footer {
-      margin-top: 2em;
-      font-size: 0.9em;
+      margin-top: 3em;
+      font-size: 0.95em;
       color: #777;
     }
-    /* === ĐỒNG HỒ === */
+
+    /* Đồng hồ */
     .clock-container {
       position: fixed;
       top: 10px;
       left: 10px;
       z-index: 100;
     }
+
+    /* Submenu */
+    .has-submenu {
+      padding-bottom: 8px;
+      position: relative;
+    }
+    .submenu {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0 0;
+      width: 100%;
+      display: none;
+    }
+    .has-submenu:hover .submenu {
+      display: block;
+    }
+    .submenu li {
+      box-shadow: none;
+      margin-top: 6px;
+      padding-top: 4px;
+      transform: none;
+    }
+    .submenu li:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    .submenu a {
+      text-decoration: none;
+      color: #000;
+      font-size: 0.95em;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      display: block;
+    }
+
+    .menu-label-main .arrow {
+      font-weight: normal;
+      margin-left: 4px;
+      font-size: 0.9em;
+    }
   </style>
 </head>
+
 <body>
-  <!-- Đồng hồ góc trái -->
+
+  <!-- Đồng hồ -->
   <div class="clock-container">
     <iframe scrolling="no" frameborder="no" clocktype="html5"
       style="overflow:hidden;border:0;margin:0;padding:0;width:150px;height:150px;"
-      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT0700&color=green&size=150&Title=&Message=&Target=&From=2025,1,1,0,0,0&Color=green">
+      src="https://www.clocklink.com/html5embed.php?clock=013&timezone=GMT0700&color=green&size=150">
     </iframe>
   </div>
 
   <h1>🌐 Các trang ứng dụng</h1>
-  <ul>    
-    <li><a href="https://docs.google.com/spreadsheets/d/1qjXhcvPrr10kQ4vcgZhzsXTZg0yE59kH/edit?gid=1567642694#gid=1567642694" target="_blank" rel="noopener">Cập nhật theo dõi hợp đồng</a></li>
-    <li><a href="https://docs.google.com/spreadsheets/d/17tRMxqmupZuHE7YJ1RHMjSTKlFoqEIgJ/edit?gid=1475591577#gid=1475591577" rel="noopener">Theo dõi công trình Sửa chữa lớn 2025</a></li>
-    <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm" target="_blank" rel="noopener">Học nghiệp vụ Kế hoạch Vật tư</a></li>
-    <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/DAUTHAU2025/index.htm" target="_blank" rel="noopener">Học nghiệp vụ Đấu thầu</a></li>
-    <li><a href="https://chat.openai.com" target="_blank" rel="noopener">ChatGPT</a></li>
+
+  <ul>
+    <li>
+      <a class="main-link"
+         href="https://docs.google.com/spreadsheets/d/1qjXhcvPrr10kQ4vcgZhzsXTZg0yE59kH/edit?gid=1567642694#gid=1567642694"
+         target="_blank">
+        Cập nhật theo dõi hợp đồng
+      </a>
+    </li>
+
+    <li>
+      <a class="main-link"
+         href="https://docs.google.com/spreadsheets/d/17tRMxqmupZuHE7YJ1RHMjSTKlFoqEIgJ/edit?gid=1475591577#gid=1475591577"
+         target="_blank">
+        Theo dõi công trình Sửa chữa lớn 2025
+      </a>
+    </li>
+
+    <li>
+      <a class="main-link"
+         href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm"
+         target="_blank">
+        Học nghiệp vụ Kế hoạch Vật tư
+      </a>
+    </li>
+
+    <li>
+      <a class="main-link"
+         href="https://ldcttphcm.io.vn/hoctracnghiem/DAUTHAU2025/index.htm"
+         target="_blank">
+        Học nghiệp vụ Đấu thầu
+      </a>
+    </li>
+
+    <li>
+      <a class="main-link"
+         href="https://chat.openai.com"
+         target="_blank">
+        ChatGPT
+      </a>
+    </li>
+
+    <!-- Menu chức năng -->
+    <li class="has-submenu">
+      <span class="menu-label-main">
+        Menu chức năng <span class="arrow">▾</span>
+      </span>
+      <ul class="submenu">
+        <li><a href="Chuc_nang/Ban_giaoVT.html">Biên bản bàn giao VTTB</a></li>
+      </ul>
+    </li>
   </ul>
+
   <footer>© 2025 - Tạo bởi Minh Trung trên GitHub Pages</footer>
+
 </body>
 </html>
