@@ -11,25 +11,25 @@
       color: #333;
       text-align: center;
       margin: 0;
-      padding: 3em;  /* tăng padding */
-      font-size: 18px; /* tăng font chung */
+      padding: 3em;
+      font-size: 18px;
     }
     h1 {
       color: #1a73e8;
-      font-size: 2.9em; /* tăng size tiêu đề */
+      font-size: 2.9em;
       font-weight: 700;
       margin-bottom: 0.8em;
     }
     ul {
       list-style: none;
       padding: 0;
-      max-width: 500px; /* tăng chiều rộng */
+      max-width: 500px;
       margin: 2.5em auto;
     }
     li {
       background: white;
       margin: 14px 0;
-      padding: 16px;   /* tăng padding */
+      padding: 16px;
       border-radius: 14px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -43,13 +43,12 @@
       box-shadow: 0 6px 14px rgba(0,0,0,0.14);
     }
 
-    /* Link chính */
     a.main-link,
     .menu-label-main {
       text-decoration: none;
       color: #0d53ae;
       font-weight: 700;
-      font-size: 1.05em; /* lớn hơn chút */
+      font-size: 1.05em;
       width: 100%;
       text-align: center;
       display: block;
@@ -62,7 +61,6 @@
       color: #777;
     }
 
-    /* Đồng hồ */
     .clock-container {
       position: fixed;
       top: 10px;
@@ -70,7 +68,7 @@
       z-index: 100;
     }
 
-    /* Submenu */
+    /* Cấu trúc Submenu */
     .has-submenu {
       padding-bottom: 8px;
       position: relative;
@@ -87,9 +85,11 @@
     }
     .submenu li {
       box-shadow: none;
-      margin-top: 6px;
-      padding-top: 4px;
+      margin: 0;
+      padding: 8px 0;
       transform: none;
+      background: transparent;
+      border-radius: 0;
     }
     .submenu li:hover {
       transform: none;
@@ -98,7 +98,7 @@
     .submenu a {
       text-decoration: none;
       color: #000;
-      font-size: 0.95em;
+      font-size: 0.9em;
       font-weight: 500;
       width: 100%;
       text-align: center;
@@ -115,7 +115,6 @@
 
 <body>
 
-  <!-- Đồng hồ -->
   <div class="clock-container">
     <iframe scrolling="no" frameborder="no" clocktype="html5"
       style="overflow:hidden;border:0;margin:0;padding:0;width:150px;height:150px;"
@@ -127,46 +126,30 @@
 
   <ul>
     <li>
-      <a class="main-link"
-         href="https://docs.google.com/spreadsheets/d/1qjXhcvPrr10kQ4vcgZhzsXTZg0yE59kH/edit?gid=1567642694#gid=1567642694"
-         target="_blank">
+      <a class="main-link" href="https://docs.google.com/spreadsheets/d/1qjXhcvPrr10kQ4vcgZhzsXTZg0yE59kH/edit?gid=1567642694#gid=1567642694" target="_blank">
         Cập nhật theo dõi hợp đồng
       </a>
     </li>
 
     <li>
-      <a class="main-link"
-         href="https://docs.google.com/spreadsheets/d/17tRMxqmupZuHE7YJ1RHMjSTKlFoqEIgJ/edit?gid=1475591577#gid=1475591577"
-         target="_blank">
+      <a class="main-link" href="https://docs.google.com/spreadsheets/d/17tRMxqmupZuHE7YJ1RHMjSTKlFoqEIgJ/edit?gid=1475591577#gid=1475591577" target="_blank">
         Theo dõi công trình Sửa chữa lớn 2025
       </a>
     </li>
 
-    <li>
-      <a class="main-link"
-         href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm"
-         target="_blank">
-        Học nghiệp vụ Kế hoạch Vật tư
-      </a>
+    <li class="has-submenu">
+      <span class="menu-label-main">
+        Học nghiệp vụ <span class="arrow">▾</span>
+      </span>
+      <ul class="submenu">
+        <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/KHVT2024/index.htm" target="_blank">Kế hoạch Vật tư</a></li>
+        <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/DAUTHAU2025/index.htm" target="_blank">Nghiệp vụ Đấu thầu</a></li>
+        <li><a href="https://ldcttphcm.io.vn/hoctracnghiem/CHUNGCHIDAUTHAU/index.html" target="_blank">Chứng chỉ Đấu thầu</a></li>
+      </ul>
     </li>
 
-    <li>
-      <a class="main-link"
-         href="https://ldcttphcm.io.vn/hoctracnghiem/DAUTHAU2025/index.htm"
-         target="_blank">
-        Học nghiệp vụ Đấu thầu
-      </a>
-    </li>
+    
 
-    <li>
-      <a class="main-link"
-         href="https://chat.openai.com"
-         target="_blank">
-        ChatGPT
-      </a>
-    </li>
-
-    <!-- Menu chức năng -->
     <li class="has-submenu">
       <span class="menu-label-main">
         Menu chức năng <span class="arrow">▾</span>
@@ -174,6 +157,11 @@
       <ul class="submenu">
         <li><a href="Chuc_nang/Ban_giaoVT.html">Biên bản bàn giao VTTB</a></li>
       </ul>
+    </li>
+<li>
+      <a class="main-link" href="https://chat.openai.com" target="_blank">
+        ChatGPT
+      </a>
     </li>
   </ul>
 
